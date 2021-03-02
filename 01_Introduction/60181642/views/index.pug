@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  .container
+    h1=title
+    .row
+      .col-sm-6
+        img(src="/images/mari.jpg", alt="mari")
+      .col-sm-6
+        div
+          table
+            tr
+              td.type 이름
+              td.cont 박지원
+            tr
+              td.type 학번
+              td.cont 60181642
+        div
+          h3 하고 싶은 말을 남겨주세요!
+          form(action='/', method='POST')
+            .form-group
+              textarea(class="form-control", id="content", name="content", rows="3")
+            button(type="submit", class="btn btn-outline-success", id="btn") 보내기
+        hr
+        div
+          each comment in comments
+            div(class="alert alert-warning", role="alert")=comment.content
+
+  script.
+    function submit() {
+      alert("***성공적으로 보냈습니다***");
+    } btn.addEventListener('click', submit);
+
+
+
+            
+
+

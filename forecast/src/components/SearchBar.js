@@ -1,0 +1,48 @@
+import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
+
+
+import { addCity } from '../actions/index';
+
+const StyledFormControl = styled(FormControl)`
+  min-width: 90%;
+`;
+
+export default function SearchBar(){
+  const [name, setName] = useState("");
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.loading);
+  return(
+    <Form inline className="mt-3 mb-3">
+      <StyledFormControl type="text" placeholder="Search" className=" mr-sm-2"
+        value = {name} 
+        onChange={(event) => {
+          setName(event.target.value);
+        }}
+        onKeyDown={(event) => {
+          if(event.keyCode === 13) {
+            if (!loading) {
+              dispatch(addCity(name));
+              setName("");
+            }
+            event.preventDefault();
+            return false;
+          }
+        }}
+      />
+      <Button type="button" onClick={() =>{
+        dispatch(addCity(name));
+        setName("");
+      }}>
+        {loading && (<FontAwesomeIcon icon={faSpinner} spin />)}
+        {!loading && "추가"}
+      </Button>
+    </Form>
+  );
+}
